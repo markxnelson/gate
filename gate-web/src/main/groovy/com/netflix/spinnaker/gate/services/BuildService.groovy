@@ -41,6 +41,15 @@ class BuildService {
     return UriUtils.encodeFragment(uri.toString(), "UTF-8")
   }
 
+  List<String> getBuildMastersOfType(String buildServiceType) {
+    if (!igorService) {
+      return []
+    }
+    HystrixFactory.newListCommand(GROUP, "masters") {
+      igorService.getBuildMasters(buildServiceType)
+    } execute()
+  }
+
   List<String> getBuildMasters() {
     if (!igorService) {
       return []

@@ -21,10 +21,7 @@ import com.netflix.spinnaker.gate.services.BuildService
 import groovy.transform.CompileStatic
 import javax.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.HandlerMapping
 
 @CompileStatic
@@ -38,8 +35,12 @@ class BuildController {
   BuildService buildService
 
   @RequestMapping(value = "v2/builds", method = RequestMethod.GET)
-  List<String> getBuildMasters() {
-    buildService.getBuildMasters()
+  List<String> getBuildMasters(@RequestParam(value = "type", defaultValue = "") String type) {
+    if (type == "") {
+      buildService.getBuildMasters()
+    } else {
+      buildService.getBuildMastersOfType(type)
+    }
   }
 
   @RequestMapping(value = "/v2/builds/{buildMaster}/jobs", method = RequestMethod.GET)

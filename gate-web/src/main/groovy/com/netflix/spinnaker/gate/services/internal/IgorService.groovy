@@ -20,6 +20,7 @@ package com.netflix.spinnaker.gate.services.internal
 import retrofit.http.EncodedPath
 import retrofit.http.GET
 import retrofit.http.Path
+import retrofit.http.Query
 
 interface IgorService {
   /*
@@ -29,6 +30,14 @@ interface IgorService {
 
   @GET('/masters')
   List<String> getBuildMasters()
+
+  /**
+   * Get build masters
+   * @param type - optional parameter the (non-case-sensitive) build service type name (e.g. Jenkins)
+   * @return
+   */
+  @GET('/masters')
+  List<String> getBuildMasters(@Query("type") String type)
 
   @GET('/jobs/{buildMaster}')
   List<String> getJobsForBuildMaster(@Path("buildMaster") String buildMaster)
